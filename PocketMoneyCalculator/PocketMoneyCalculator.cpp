@@ -9,17 +9,45 @@ bool CheckStringValid(std::string s)
 {
 	if (s == "")
 	{
+		std::cout << "Please enter a value." << std::endl;
 		return false;
 	}
 
 	try {
 		std::stod(s);
+	}
+	catch (std::invalid_argument)
+	{
+		std::cout << "Invalid input." << std::endl;
+		return false;
+	}
+	catch (std::out_of_range)
+	{
+		std::cout << "Invalid out of valid range." << std::endl;
+		return false;
+	}
+	return true;
+}
+
+bool CheckStringIsInt(std::string s)
+{
+	if (s == "")
+	{
+		std::cout << "Please enter a value." << std::endl;
+		return false;
+	}
+	try 
+	{
+		std::stoi(s);
 		return true;
 	}
-	catch (int e)
+	catch(std::invalid_argument)
 	{
-		std::cout << "Expection number:" << e << std::endl;
-		return false;
+		std::cout << "Input invalid." << std::endl;
+	}
+	catch (std::out_of_range)
+	{
+		std::cout << "Input out of valid range." << std::endl;
 	}
 }
 
@@ -108,6 +136,22 @@ double GetValueFromUser()
 	}
 }
 
+int GetMenuOptionFromUser()
+{
+	std::string str;
+	std::cout << "Enter your option: ";
+	std::cin >> str;
+
+	if (CheckStringIsInt(str))
+	{
+		return std::stoi(str);
+	}
+	else
+	{
+		GetMenuOptionFromUser();
+	}
+}
+
 int main()
 {
 	// Functionality to implement for MVP:
@@ -116,10 +160,14 @@ int main()
 	// Deposit
 	// Remove
 	// Show menu
+	int running = true;
+	while (running)
+	{
+		ShowBalance();
+		AddToBalance(GetValueFromUser());
+		ShowBalance();
+	}
 
-	ShowBalance();
-	AddToBalance(GetValueFromUser());
-	ShowBalance();
 
 	
 	return 0;
