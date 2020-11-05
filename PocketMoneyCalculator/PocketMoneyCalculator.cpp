@@ -164,8 +164,17 @@ int main()
 	while (running)
 	{
 		ShowBalance();
-		AddToBalance(GetValueFromUser());
-		ShowBalance();
+		std::cout << "Please select an option:" << std::endl;
+		std::cout << "[1] Add to account" << std::endl;
+		int option = GetMenuOptionFromUser();
+		switch (option)
+		{
+		case 0:
+			break;
+		case 1:
+			AddToBalance(GetValueFromUser());
+			break;
+		}
 	}
 
 
