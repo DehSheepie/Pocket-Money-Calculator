@@ -119,10 +119,41 @@ void AddToBalance(double addition)
 	}
 }
 
+void RemoveFromBalance(double subtraction)
+{
+	std::ifstream file;
+	file.open(filename);
+
+	// Check For Error
+	if (file.fail())
+	{
+		std::cerr << "File not found" << std::endl;
+		exit(1);
+	}
+	std::string balance;
+	std::getline(file, balance);
+	double value;
+	file.close();
+	if (CheckStringValid(balance))
+	{
+		value = std::stod(balance);
+		value -= subtraction;
+		if (value < 0)
+		{
+			value = 0;
+		}
+		OverwriteFile(value);
+	}
+	else
+	{
+		std::cout << "Balance value invalid" << std::endl;
+	}
+}
+
 double GetValueFromUser()
 {
 	std::string str;
-	std::cout << "Enter the ammount you wish to add to the account" << std::endl;
+	std::cout << "Enter the ammount" << std::endl;
 	std::cin >> str;
 
 	if (CheckStringValid(str))
@@ -166,6 +197,7 @@ int main()
 		ShowBalance();
 		std::cout << "Please select an option:" << std::endl;
 		std::cout << "[1] Add to account" << std::endl;
+		std::cout << "[2] Remove from account" << std::endl;
 		int option = GetMenuOptionFromUser();
 		switch (option)
 		{
@@ -174,6 +206,8 @@ int main()
 		case 1:
 			AddToBalance(GetValueFromUser());
 			break;
+		case 2:
+			RemoveFromBalance(GetValueFromUser());
 		}
 	}
 
